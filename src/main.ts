@@ -10,7 +10,8 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  const allowedHosts = app.get(ConfigService).get<string>('ALLOWED_HOSTS')?.split(', ');
+  const allowedHosts = app.get(ConfigService).get<string>('ALLOWED_HOSTS')?.split(',');
+  console.log('allowedHosts', allowedHosts);
   app.enableCors({ origin: allowedHosts ?? 'http://localhost:4200', credentials: true });
 
   await app.listen(process.env.PORT ?? 3000);
