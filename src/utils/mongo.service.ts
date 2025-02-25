@@ -12,7 +12,16 @@ export class MongoService implements OnModuleInit, OnModuleDestroy {
   async onModuleInit() {
     try {
       const mongoConf: ConfigType<typeof mongoConfig> = this.configService.get('mongoConfig');
-      const mongoUri = mongoConf.mongoBaseUri.concat('/', mongoConf.mongoDatabase);
+      let mongoUri = mongoConf.mongoBaseUri;
+      if (mongoConf.mongoUser && mongoConf.mongoPassword) {
+        mongoUri = mongoUri.replace(
+          'mongodb+srv://',
+          `mongodb+srv://${mongoConf.mongoUser}:${mongoConf.mongoPassword}@`,
+        );
+      }
+
+      // Append database name
+      mongoUri = `${mongoUri}/${mongoConf.mongoDatabase}`;
       this.mongoClient = await MongoClient.connect(mongoUri, {
         auth: {
           username: mongoConf.mongoUser,
