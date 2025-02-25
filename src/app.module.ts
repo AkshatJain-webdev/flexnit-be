@@ -19,7 +19,7 @@ import { CsvService } from './utils/csv.service';
     ConfigModule.forRoot({
       load: [authConfig, mongoConfig],
       isGlobal: true,
-      envFilePath: '.env.develop',
+      envFilePath: process.env.NODE_ENV !== 'production' ? '.env.develop' : undefined,
     }),
     JwtModule.registerAsync({
       inject: [ConfigService],
