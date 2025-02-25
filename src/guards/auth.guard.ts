@@ -27,6 +27,7 @@ export class AuthGuard implements CanActivate {
     if (!token && request.cookies?.flexnit_access_token) {
       token = request.cookies.flexnit_access_token;
     }
+    console.log('token', token, JSON.stringify(request.cookies));
     if (!token) {
       throw new UnauthorizedException('No token provided');
     }
