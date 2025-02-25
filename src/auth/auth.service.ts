@@ -76,7 +76,7 @@ export class AuthService {
     res.cookie('flexnit_access_token', access_token, {
       httpOnly: true,
       secure: this.authConf.secureCookie,
-      sameSite: 'strict',
+      sameSite: this.authConf.secureCookie ? 'none' : 'strict',
       maxAge: this.authConf.tokenExpiration * 1000,
     });
     return { access_token };
